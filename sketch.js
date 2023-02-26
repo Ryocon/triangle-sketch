@@ -21,6 +21,7 @@ const sketch = () => {
     context.save()
     // anchors the rectangle in the centre
     context.translate(x, y)
+    context.translate(w * -0.5, h * -0.5)
 
     context.strokeStyle = 'blue'
 
@@ -30,10 +31,10 @@ const sketch = () => {
     // rectangle drawn point by point
     // easier to move and control
     context.beginPath()
-    context.moveTo(w * -0.5, h * -0.5)
-    context.lineTo(w * 0.5, h * -0.5)
-    context.lineTo(w * 0.5, h * 0.5)
-    context.lineTo(w * -0.5, h * 0.5)
+    context.moveTo(0, 0)
+    context.lineTo(w, 0)
+    context.lineTo(w, h)
+    context.lineTo(0, h)
     context.closePath()
     context.stroke()
 
