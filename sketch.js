@@ -12,18 +12,19 @@ const settings = {
 
 const sketch = ({ context, width, height }) => {
 
-  let x, y, w, h, fill, stroke
+  // reactangle properties
+  let x, y, w, h, fill, stroke, blend
 
-  const num = 20
+  // amount of rectangles generated
+  const num = 40
   const degrees = -30
 
   // being used to control each random generation of the frame
   // stops the random from happening constantly
   const rects = []
 
-  // picks from 3 riso-colors at a time
+  // picks from 2 riso-colors at a time
   const rectColors = [
-    random.pick(risoColors),
     random.pick(risoColors),
     random.pick(risoColors),
   ]
@@ -36,7 +37,7 @@ const sketch = ({ context, width, height }) => {
 
     x = random.range(0, width)
     y = random.range(0, height)
-    w = random.range(200, 600)
+    w = random.range(600, width)
     h = random.range(40, 200)
 
     // applying colour - added throughout object
@@ -44,7 +45,11 @@ const sketch = ({ context, width, height }) => {
     fill = random.pick(rectColors).hex
     stroke = random.pick(rectColors).hex
 
-    rects.push({ x, y, w, h, fill, stroke })
+    // ternary operator for controlling blending options
+    blend = (random.value() > 0.5 ) ? 'overlay' : 'source-over'
+
+    // pushing to object
+    rects.push({ x, y, w, h, fill, stroke, blend })
   }
 
   return ({ context, width, height }) => {
@@ -53,8 +58,8 @@ const sketch = ({ context, width, height }) => {
 
     rects.forEach(rect => {
 
-    // destructed rect
-    const { x, y, w, h, fill, stroke } = rect
+    // destructed rectangle / renderer
+    const { x, y, w, h, fill, stroke, blend } = rect
     
     // using canvas-sketch-utils for HSL shadows
     let shadowColor
@@ -67,6 +72,9 @@ const sketch = ({ context, width, height }) => {
     context.strokeStyle = stroke
     context.fillStyle = fill
     context.lineWidth = 10
+
+    // colour blending options
+    context.globalCompositeOperation = blend
 
     // calling the rectangle object
     drawSkewedRect({ context, w, h, degrees })
@@ -84,7 +92,9 @@ const sketch = ({ context, width, height }) => {
     context.stroke()
 
     // experiment
-    
+    context.lineWidth = 2
+    context.strokeStyle = 'black'
+    context.stroke()
  
     context.restore()
     })
