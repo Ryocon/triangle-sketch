@@ -20,6 +20,15 @@ const sketch = ({ context, width, height }) => {
   // stops the random from happening constantly
   const rects = []
 
+  // picks from 3 riso-colors at a time
+  const rectColors = [
+    random.pick(risoColors),
+    random.pick(risoColors),
+    random.pick(risoColors),
+  ]
+
+  const bgColor = random.pick(risoColors).hex
+
   // generating rects
   for (let i = 0; i < num; i++ ) {
 
@@ -30,14 +39,14 @@ const sketch = ({ context, width, height }) => {
 
     // applying colour - added throughout object
     // accepts names, hexes, rgb, rgba
-    fill = random.pick(risoColors).hex
-    stroke = random.pick(risoColors).hex
+    fill = random.pick(rectColors).hex
+    stroke = random.pick(rectColors).hex
 
     rects.push({ x, y, w, h, fill, stroke })
   }
 
   return ({ context, width, height }) => {
-    context.fillStyle = 'white';
+    context.fillStyle = bgColor;
     context.fillRect(0, 0, width, height);
 
     rects.forEach(rect => {
@@ -52,6 +61,7 @@ const sketch = ({ context, width, height }) => {
     context.translate(x, y)
     context.strokeStyle = stroke
     context.fillStyle = fill
+    context.lineWidth = 10
 
     // calling the rectangle object
     drawSkewedRect({ context, w, h, degrees })
