@@ -56,6 +56,23 @@ const sketch = ({ context, width, height }) => {
     context.fillStyle = bgColor;
     context.fillRect(0, 0, width, height);
 
+    context.save()
+    // centres the drawing
+    context.translate(width * 0.5, height * 0.5)
+
+    context.beginPath()
+    context.moveTo(0, -300)
+    context.lineTo(300, 200)
+    context.lineTo(-300, 200)
+    context.closePath()
+
+    context.lineWidth = 10
+    context.strokeStyle = 'black'
+    context.stroke()
+    context.clip()
+
+
+    // loop that draws rectangles
     rects.forEach(rect => {
 
     // destructed rectangle / renderer
@@ -91,13 +108,19 @@ const sketch = ({ context, width, height }) => {
     context.shadowColor = null
     context.stroke()
 
-    // experiment
+    // additional outline for blending/shadow
     context.lineWidth = 2
     context.strokeStyle = 'black'
     context.stroke()
  
     context.restore()
     })
+
+    
+
+
+    context.restore()
+
   };
 };
 
