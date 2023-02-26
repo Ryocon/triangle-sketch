@@ -10,7 +10,7 @@ const settings = {
 
 const sketch = ({ context, width, height }) => {
 
-  let x, y, w, h;
+  let x, y, w, h, fill, stroke
 
   const num = 20
   const degrees = -30
@@ -19,6 +19,7 @@ const sketch = ({ context, width, height }) => {
   // stops the random from happening constantly
   const rects = []
 
+  // generating rects
   for (let i = 0; i < num; i++ ) {
 
     x = random.range(0, width)
@@ -26,7 +27,11 @@ const sketch = ({ context, width, height }) => {
     w = random.range(200, 600)
     h = random.range(40, 200)
 
-    rects.push({ x, y, w, h })
+    // applying colour - added throughout object
+    fill = 'blue'
+    stroke = 'black'
+
+    rects.push({ x, y, w, h, fill, stroke })
   }
 
   return ({ context, width, height }) => {
@@ -36,18 +41,20 @@ const sketch = ({ context, width, height }) => {
     rects.forEach(rect => {
 
     // destructed rect
-    const { x, y, w, h, } = rect
+    const { x, y, w, h, fill, stroke } = rect
 
     // saves and resets(?)
     context.save()
     // anchors the rectangle in the centre
 
     context.translate(x, y)
-    context.strokeStyle = 'blue'
+    context.strokeStyle = stroke
+    context.fillStyle = fill
 
     // calling the rectangle object
     drawSkewedRect({ context, w, h, degrees })
     context.stroke()
+    context.fill()
  
     context.restore()
     })
