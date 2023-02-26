@@ -135,8 +135,10 @@ const sketch = ({ context, width, height }) => {
     // appears infront of rectangles
     context.save()
     context.translate(mask.x, mask.y)
-    drawPolygon({ context, radius: mask.radius, sides: mask.sides})
     context.lineWidth = 10
+    drawPolygon({ context, radius: mask.radius - context.lineWidth, sides: mask.sides})
+    context.globalCompositeOperation = 'color-burn'
+    
     context.strokeStyle = 'black'
     context.stroke()
     context.restore()
