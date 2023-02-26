@@ -32,6 +32,14 @@ const sketch = ({ context, width, height }) => {
   // for generating background colour
   const bgColor = random.pick(risoColors).hex
 
+  // draws the polygon twice to make sure the outline stroke is not covered
+  const mask = {
+    radius: width * 0.4,
+    sides: 3,
+    x: width * 0.5,
+    y: height * 0.58
+  }
+
   // generating rects
   for (let i = 0; i < num; i++ ) {
 
@@ -59,10 +67,10 @@ const sketch = ({ context, width, height }) => {
     // triangle!
     context.save()
     // centres the drawing
-    context.translate(width * 0.5, height * 0.5)
+    context.translate(mask.x, mask.y)
 
     // draws shapes based on drawPolygon function
-    drawPolygon({ context, radius: 400, sides: 3})
+    drawPolygon({ context, radius: mask.radius, sides: mask.sides})
 
     // context.beginPath()
     // context.moveTo(0, -300)
@@ -70,9 +78,9 @@ const sketch = ({ context, width, height }) => {
     // context.lineTo(-300, 200)
     // context.closePath()
 
-    context.lineWidth = 10
-    context.strokeStyle = 'black'
-    context.stroke()
+    // context.lineWidth = 10
+    // context.strokeStyle = 'black'
+    // context.stroke()
     context.clip()
     // end of triangles
 
@@ -89,7 +97,7 @@ const sketch = ({ context, width, height }) => {
     // saves and resets(?)
     context.save()
     // anchors the rectangle in the centre
-    context.translate(width * -0.5, height * -0.5)
+    context.translate(-mask.x, -mask.y)
     context.translate(x, y)
     context.strokeStyle = stroke
     context.fillStyle = fill
@@ -121,9 +129,16 @@ const sketch = ({ context, width, height }) => {
     context.restore()
     })
 
-    
+    context.restore()
 
-
+    // polygon outline
+    // appears infront of rectangles
+    context.save()
+    context.translate(mask.x, mask.y)
+    drawPolygon({ context, radius: mask.radius, sides: mask.sides})
+    context.lineWidth = 10
+    context.strokeStyle = 'black'
+    context.stroke()
     context.restore()
 
   };
