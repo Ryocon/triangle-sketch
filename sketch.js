@@ -5,12 +5,22 @@ const random = require('canvas-sketch-util/random')
 const risoColors = require('riso-colors')
 const Color = require('canvas-sketch-util/color')
 
+// const seed = Date.now
+const seed = random.getRandomSeed()
+
 const settings = {
   dimensions: [ 1080, 1080 ],
   // animate: true
 };
 
 const sketch = ({ context, width, height }) => {
+
+  // sets the seed data for the values of the colours, shape placement etc
+  // can be integers or strings
+  random.setSeed(seed)
+  console.log(random.value())
+  console.log(random.value())
+  console.log(random.value())
 
   // reactangle properties
   let x, y, w, h, fill, stroke, blend
@@ -72,17 +82,8 @@ const sketch = ({ context, width, height }) => {
     // draws shapes based on drawPolygon function
     drawPolygon({ context, radius: mask.radius, sides: mask.sides})
 
-    // context.beginPath()
-    // context.moveTo(0, -300)
-    // context.lineTo(300, 200)
-    // context.lineTo(-300, 200)
-    // context.closePath()
-
-    // context.lineWidth = 10
-    // context.strokeStyle = 'black'
-    // context.stroke()
     context.clip()
-    // end of triangles
+    // end of triangle
 
 
     // loop that draws rectangles
