@@ -56,6 +56,7 @@ const sketch = ({ context, width, height }) => {
     context.fillStyle = bgColor;
     context.fillRect(0, 0, width, height);
 
+    // triangle!
     context.save()
     // centres the drawing
     context.translate(width * 0.5, height * 0.5)
@@ -70,6 +71,7 @@ const sketch = ({ context, width, height }) => {
     context.strokeStyle = 'black'
     context.stroke()
     context.clip()
+    // end of triangles
 
 
     // loop that draws rectangles
@@ -84,7 +86,7 @@ const sketch = ({ context, width, height }) => {
     // saves and resets(?)
     context.save()
     // anchors the rectangle in the centre
-
+    context.translate(width * -0.5, height * -0.5)
     context.translate(x, y)
     context.strokeStyle = stroke
     context.fillStyle = fill
