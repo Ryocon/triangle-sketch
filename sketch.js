@@ -3,6 +3,7 @@ const canvasSketch = require('canvas-sketch');
 const math = require('canvas-sketch-util/math')
 const random = require('canvas-sketch-util/random')
 const risoColors = require('riso-colors')
+const Color = require('canvas-sketch-util/color')
 
 const settings = {
   dimensions: [ 1080, 1080 ],
@@ -27,6 +28,7 @@ const sketch = ({ context, width, height }) => {
     random.pick(risoColors),
   ]
 
+  // for generating background colour
   const bgColor = random.pick(risoColors).hex
 
   // generating rects
@@ -53,6 +55,9 @@ const sketch = ({ context, width, height }) => {
 
     // destructed rect
     const { x, y, w, h, fill, stroke } = rect
+    
+    // using canvas-sketch-utils for HSL shadows
+    let shadowColor
 
     // saves and resets(?)
     context.save()
@@ -65,8 +70,21 @@ const sketch = ({ context, width, height }) => {
 
     // calling the rectangle object
     drawSkewedRect({ context, w, h, degrees })
-    context.stroke()
+
+    // using HSL for generating shadows
+    shadowColor = Color.offsetHSL(fill, 0, 0, -20)
+    shadowColor.rgba[3] = 0.5
+    context.shadowColor = Color.style(shadowColor.rgba)
+    context.shadowOffsetX = -10
+    context.shadowOffsetY = 20
+
     context.fill()
+
+    context.shadowColor = null
+    context.stroke()
+
+    // experiment
+    
  
     context.restore()
     })
